@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import { getUser } from '../api';
-
 
 const App = () => {
 
   const [token, setToken] = useState('');
+  const [userData, setUserData] = useState({});
 
   // token / userData
   useEffect(async () => {
@@ -23,6 +23,10 @@ const App = () => {
 
         <Route exact path='/'>
           <h1>Home Page</h1>
+        </Route>
+
+        <Route exact path='/users'>
+          <h1>Users Page</h1>
         </Route>
 
         {/* 404 */}
