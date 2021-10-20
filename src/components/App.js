@@ -1,7 +1,21 @@
 import React from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
+import { getUser } from '../api';
+
 
 const App = () => {
+
+  const [token, setToken] = useState('');
+
+  // token / userData
+  useEffect(async () => {
+    if (!token) {
+      setToken(localStorage.getItem('capstone-token'));
+      return;
+    }
+    const data = await getUser(token);
+    setUserData(data);
+  }, [token]);
 
   return (
     <>

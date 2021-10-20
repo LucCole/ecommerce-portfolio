@@ -25,3 +25,5 @@ export const callApi = async ({ url, method, token, body }) => {
     return error;
   }
 };
+
+export * from './users';
