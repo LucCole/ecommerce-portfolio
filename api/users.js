@@ -1,11 +1,18 @@
 const express = require('express');
 const userRouter = express.Router();
 const jwt = require('jsonwebtoken');
+const { requireUser } = require('./middleware');
+
 
 const { 
     createUser,
     getUserByUsername,
-    getUser
+    getUser,
+    getUserProfile,
+    editUserProfile,
+    editUserPassword,
+    getUserByEmail,
+    editUserEmail
 } = require('../db'); 
 
 const { JWT_SECRET } = process.env;
@@ -73,7 +80,7 @@ userRouter.post('/register', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-})
+});
 
 // GET /api/users/me
 userRouter.get('/me',  async (req, res, next) => {
@@ -82,6 +89,112 @@ userRouter.get('/me',  async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-})
+});
+
+
+
+
+// WORKING -------- 
+
+// GET /api/users/profile
+userRouter.get('/profile/:id', async (req, res, next) => {
+  try {
+    const user = await getUserProfile(req.params.id);
+    res.send(user);
+  } catch (error) {
+    next(error)
+  }
+});
+
+// PATCH /api/users/profile
+userRouter.patch('/profile', requireUser, async (req, res, next) => {
+  try {
+
+    // Is the request being made by the user
+    if(req.body.id !== req.user.id){
+      next({
+        message: "User does't have access to this request.",
+      });
+    }
+
+    const user = await editUserProfile(req.body);
+    res.send(user);
+  } catch (error) {
+    next(error)
+  }
+});
+
+// PATCH /api/users/email
+userRouter.patch('/email', requireUser, async (req, res, next) => {
+  try {
+
+    // if not the same user
+    if(req.body.id !== req.user.id){
+      next({
+        message: "User does't have access to this request.",
+      });
+    }
+
+    // If correct password sent
+    const user = await getUser({username: req.user.username, password: req.body.password});
+    if(!user) {
+      next({
+        message: 'Password is incorrect.',
+      });
+    }
+
+    // If a user already has that email
+    const queriedUser = await getUserByEmail(req.body.newEmail);
+    if (queriedUser) {
+      next({
+        message: 'A user with that email already exists'
+      });
+    } 
+
+    const updatedUser = await editUserEmail(req.body);
+    res.send(updatedUser);
+  } catch (error) {
+    next(error)
+  }
+});
+
+// PATCH /api/users/password
+userRouter.patch('/password', requireUser, async (req, res, next) => {
+  try {
+
+    // Is the request being made by the user
+    if(req.body.id !== req.user.id){
+      next({
+        message: "User does't have access to this request.",
+      });
+    }
+
+    console.log('req.body.password: ', req.body.password);
+
+    // If correct password sent
+    const user = await getUser({username: req.user.username, password: req.body.password});
+    console.log('user: ', user);
+    if(!user) {
+      next({
+        message: 'Password is incorrect.',
+      });
+    }
+
+    // If new password to short
+    if (req.body.newPassword.length < 8) {
+      next({
+        message: 'Password Too Short! Must be 8 characters or longer'
+      });
+    } 
+
+    const updatedUser = await editUserPassword(req.body);
+    res.send(updatedUser);
+  } catch (error) {
+    next(error)
+  }
+});
+
+
+
 
 module.exports = userRouter;

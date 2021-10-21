@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import { getUser } from '../api';
+import { UserForm, UserProfile } from './';
 
 const App = () => {
 
@@ -10,7 +11,7 @@ const App = () => {
   // token / userData
   useEffect(async () => {
     if (!token) {
-      setToken(localStorage.getItem('capstone-token'));
+      setToken(localStorage.getItem('ecommerce-project-token'));
       return;
     }
     const data = await getUser(token);
@@ -25,8 +26,16 @@ const App = () => {
           <h1>Home Page</h1>
         </Route>
 
-        <Route exact path='/users'>
-          <h1>Users Page</h1>
+        <Route exact path='/register'>
+          <UserForm action='register' setToken={setToken} setUserData={setUserData}/>
+        </Route> 
+
+        <Route exact path='/login'>
+          <UserForm action='login' setToken={setToken} setUserData={setUserData}/>
+        </Route>
+
+        <Route exact path='/users/profile'>
+          <UserProfile userData={userData} token={token}/>
         </Route>
 
         {/* 404 */}
