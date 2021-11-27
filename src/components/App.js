@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import { getUser } from '../api';
-import { UserForm, UserProfile, ProductForm, Product, Products, ProductsByUser } from './';
+import { 
+  UserForm, 
+  UserProfile, 
+  ProductForm, 
+  Product, 
+  Products, 
+  ProductsByUser,
+  Wishlist,
+  WishlistForm
+} from './';
 
 const App = () => {
 
@@ -26,6 +35,7 @@ const App = () => {
           <h1>Home Page</h1>
         </Route>
 
+        {/* Users */}
         <Route exact path='/register'>
           <UserForm action='register' setToken={setToken} setUserData={setUserData}/>
         </Route> 
@@ -53,6 +63,15 @@ const App = () => {
 
         <Route exact path='/products-by-user/:userId'>
           <ProductsByUser userData={userData} token={token}/>
+        </Route>
+
+        {/* Wishlist */}
+        <Route exact path='/wishlist/:userId'>
+          <Wishlist userData={userData} token={token}/>
+        </Route>
+
+        <Route exact path='/wishlist-form'>
+          <WishlistForm userData={userData} token={token}/>
         </Route>
 
         {/* 404 */}

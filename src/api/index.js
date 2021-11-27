@@ -28,3 +28,4 @@ export const callApi = async ({ url, method, token, body }) => {
 
 export * from './users';
 export * from './products';
+export * from './wishlist';
