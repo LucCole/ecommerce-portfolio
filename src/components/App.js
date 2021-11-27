@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import { getUser } from '../api';
-import { UserForm, UserProfile } from './';
+import { UserForm, UserProfile, ProductForm, Product, Products, ProductsByUser } from './';
 
 const App = () => {
 
@@ -36,6 +36,23 @@ const App = () => {
 
         <Route exact path='/users/profile'>
           <UserProfile userData={userData} token={token}/>
+        </Route>
+
+        {/* Products */}
+        <Route exact path='/products/create'>
+          <ProductForm userData={userData} token={token}/>
+        </Route>
+
+        <Route exact path='/products/:productId'>
+          <Product userData={userData} token={token}/>
+        </Route>
+
+        <Route exact path='/products'>
+          <Products userData={userData} token={token}/>
+        </Route>
+
+        <Route exact path='/products-by-user/:userId'>
+          <ProductsByUser userData={userData} token={token}/>
         </Route>
 
         {/* 404 */}

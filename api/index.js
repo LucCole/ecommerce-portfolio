@@ -44,8 +44,8 @@ apiRouter.get('/health', async (req, res, next) =>{
 const usersRouter = require('./users');
 apiRouter.use('/users', usersRouter);
 
-// const productsRouter = require('./products');
-// apiRouter.use('/products', productsRouter);
+const productsRouter = require('./products');
+apiRouter.use('/products', productsRouter);
 
 // const reviewsRouter = require('./reviews');
 // apiRouter.use('/reviews', reviewsRouter);

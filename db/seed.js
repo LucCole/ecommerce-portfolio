@@ -21,7 +21,8 @@ try {
   console.log('Dropping all tables...');
     
   await  client.query(`
-      DROP TABLE IF EXISTS users;
+    DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS users;
   `)
 
   console.log('finished to dropping tables')
@@ -47,9 +48,26 @@ try {
         "pinterestLink" TEXT,
         "instagramLink" TEXT
       );
-  `)
+  `);
 
   console.log('users done')
+
+  // change order of the rows to match everywhere else (or change them) - price and quantiy need to be INTS eventually - add deafult o boolean
+  // change seller to sellerId
+  await  client.query(`
+      CREATE TABLE products(
+        id SERIAL PRIMARY KEY, 
+        seller INTEGER REFERENCES users(id),
+        title VARCHAR(255) NOT NULL,
+        description  VARCHAR(500),
+        price INTEGER NOT NULL,
+        quantity INTEGER NOT NULL,
+        availability BOOLEAN
+      );
+  `);
+
+  console.log('products done')
+
 
   console.log('Finished building tables')
   
