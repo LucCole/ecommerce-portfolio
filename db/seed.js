@@ -21,6 +21,7 @@ try {
   console.log('Dropping all tables...');
     
   await  client.query(`
+    DROP TABLE IF EXISTS wishlist;
     DROP TABLE IF EXISTS products;
     DROP TABLE IF EXISTS users;
   `)
@@ -63,6 +64,17 @@ try {
         price INTEGER NOT NULL,
         quantity INTEGER NOT NULL,
         availability BOOLEAN
+      );
+  `);
+
+  console.log('products done')
+
+  await  client.query(`
+      CREATE TABLE wishlist(
+        id SERIAL PRIMARY KEY, 
+        "productId" INTEGER REFERENCES products(id),
+        "userId" INTEGER REFERENCES users(id),
+        UNIQUE("productId", "userId")
       );
   `);
 

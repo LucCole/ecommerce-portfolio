@@ -194,7 +194,4 @@ userRouter.patch('/password', requireUser, async (req, res, next) => {
   }
 });
 
-
-
-
 module.exports = userRouter;

@@ -32,7 +32,6 @@ apiRouter.use(async (req, res, next) => {
     }
 });
 
-
 apiRouter.get('/health', async (req, res, next) =>{
     try{
         res.send({message: "API Healthy"});
@@ -47,13 +46,7 @@ apiRouter.use('/users', usersRouter);
 const productsRouter = require('./products');
 apiRouter.use('/products', productsRouter);
 
-// const reviewsRouter = require('./reviews');
-// apiRouter.use('/reviews', reviewsRouter);
-
-// const ordersRouter = require('./orders');
-// apiRouter.use('/orders', ordersRouter);
-
-// const checkoutsRouter = require('./checkouts');
-// apiRouter.use('/checkouts', checkoutsRouter);
+const wishlistRouter = require('./wishlist');
+apiRouter.use('/wishlist', wishlistRouter);
 
 module.exports = apiRouter

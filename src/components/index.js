@@ -5,3 +5,5 @@ export { default as ProductForm } from './ProductForm';
 export { default as Product } from './Product';
 export { default as Products } from './Products';
 export { default as ProductsByUser } from './ProductsByUser';
+export { default as Wishlist } from './wishlist/Wishlist';
+export { default as WishlistForm } from './wishlist/WishlistForm';
