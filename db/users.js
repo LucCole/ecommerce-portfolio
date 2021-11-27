@@ -169,7 +169,7 @@ async function editUserProfile({publicName, location, bio, occupation, avatar, w
       "pinterestLink"=$10, 
       "instagramLink"=$11
     WHERE id=$12
-    RETURNING*;
+    RETURNING *;
     `, [publicName, location, bio, occupation, avatar, website, facebookLink, twitterLink, youtubeLink, pinterestLink, instagramLink, id]);
     return user;
   } catch (error) {
